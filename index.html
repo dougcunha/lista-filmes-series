@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Lista de filmes</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <header>
+            <h2>
+                <span class="material-icons md-light">live_tv</span>
+                Top 20 filmes. Atualizado de <a href="https://www.themoviedb.org" target="_blank">TheMovieDb.</a>
+            </h2>
+            <section class="banner"></section>
+        </header>
+        <div class="form">
+            <div class="busca">
+                <input type="text" id="busca" placeholder="Digite um nome para buscar...">
+                <label for="busca" onclick="recarregar()">search</label>
+            </div>
+            <div class="language">
+                <label for="lang" class="label">Idioma</label>
+                <select id="lang" value="pt-BR" onchange="recarregar()">
+                    <option value="pt-BR">Português</option>
+                    <option value="en-US">Inglês</option>
+                    <option value="es">Espanhol</option>
+                </select>
+            </div>
+            <div class="ordenacao">
+                <label for="ordenacao" class="label">Ordenação</label>
+                <select id="ordenacao" value="popularity" onchange="recarregar()">
+                    <option value="popularity">Populares</option>
+                    <option value="vote_average">Voto</option>
+                    <option value="release_date">Lançamento</option>
+                    <option value="vote_count">Qtd. votos</option>
+                </select>
+            </div>
+            <div class="tipo">
+                <input type="radio" id="movie" name="fav_language" value="movie" onchange="recarregar()" checked>
+                <label for="movie">Filme</label>
+                <input type="radio" id="tv" name="fav_language" onchange="recarregar()" value="tv">
+                <label for="tv">Série</label>
+            </div>
+        </div>
+        <div class="container">
+        </div>
+        <div class="pagination">
+        </div>
+        <footer>
+            <p>Utilizando a API de <a rel="noopener" href="https://developers.themoviedb.org/3/" target="_blank">TheMovieDb.org</a></p>
+        </footer>
+    </body>
+    <script src="scripts/script.js">
+    </script>
+</html>

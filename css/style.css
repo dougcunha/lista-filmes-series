@@ -1,0 +1,233 @@
+* {
+    margin: 2px;
+    padding: 2px;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+.material-icons.md-light {
+    color: rgba(255, 255, 255, 1);
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 19px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+}
+
+body {
+    background-color: rgba(24, 24, 26, 0.808);
+}
+
+header h2 {
+    color: white;
+    text-align: center;
+}
+
+a:visited {
+    color: rgb(69, 200, 181);
+}
+
+a {
+    color: darkgreen;
+}
+
+.disabled{
+    pointer-events: none;
+}
+
+.pagination {
+    text-align: center;
+}
+
+/* Pagination links */
+.pagination a {
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination a.active {
+    background-color: rgb(69, 200, 181);
+    color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+}
+
+div.filme {
+    width: 49.5%;
+    cursor: pointer;
+    color: rgb(84, 212, 181);
+    padding: 5px 5px;
+    background-color: rgb(59, 63, 73);
+}
+
+div.title {
+    float: left;
+    padding-left: 5px;
+    width: 80%;
+}
+
+div.description {
+    font-size: 14px;
+    float: left;
+    width: 75%;
+    padding: 5px 0;
+    cursor: text;
+}
+
+div.vote {
+    color: orange;
+    float: left;
+}
+
+div.poster {
+    float: right;
+    align-content: center;
+    cursor: default;
+    width: 20%;
+}
+
+div.poster > img {
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    width: 100%;
+    max-width: 280px;
+    float: left;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    background-color: rgb(59, 63, 73);
+    padding: 5px 5px;
+}
+
+.busca input[type=text] {
+    display: inline;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: 1px solid #384b59;
+    margin: 0 0;
+    max-width: 230px;
+    width: 100%;
+    font-size: 16px;
+    height: 30px;
+}
+
+.busca label {
+    display: inline;
+    padding-left: 5px;
+    margin: 0;
+    font-size: 19px;
+    cursor: pointer;
+    height: 30px;
+    text-align: center;
+    font-family: 'Material Icons';
+    color: white;
+}
+
+.label {
+    display: inline-block;
+}
+
+.language label, .ordenacao label {
+    color: white;
+    margin: 4px 0;
+    width: 40%;
+}
+
+.language select, .ordenacao select {
+    display: inline;
+    padding-left: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    border: 0;
+    height: 30px;
+    max-width: 120px;
+    width: 100%;
+}
+
+.tipo {
+    color: white;
+    padding: 4px 0;
+}
+
+#movie, #tv {
+    margin: 1px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    background-color: rgb(59, 63, 73);
+}
+
+ @media screen and (max-width: 768px) {
+    div.filme {
+        display: block;
+        width: 100%;
+    }
+
+    div.form {
+        display: flex;
+        flex-direction: row;
+        float: none;
+        max-width: none;
+        width: auto;
+        padding-right: 20px;
+        justify-content: flex-start;
+    }
+
+    div.form .busca,
+    div.form .language,
+    div.form .tipo {
+        width: 100%;
+    }
+
+    div.form .language,
+    div.form .tipo {
+        max-width: 190px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    div.filme {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    div.filme {
+        width: 49%;
+    }
+}
+
+
+@media screen and (min-width: 1400px) {
+    div.filme {
+        width: 32%;
+    }
+}
