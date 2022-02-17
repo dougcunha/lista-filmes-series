@@ -8,6 +8,8 @@ const alertar = msg => { if (DEBUG) alertar(msg); }
 const obterTipo = () => [...document.querySelectorAll('input[type="radio"]')].find(f => f.checked).value || 'movie';
 const obterBusca = () => document.getElementById('busca').value;
 
+import { uteis } from "./uteis.js";
+
 document.onload = function () {
     alertar('Loading...');
 
@@ -17,6 +19,11 @@ document.onload = function () {
             if (evt.key == 'Enter')
                 obterDoServidor();
     });
+
+    document.getElementById('close')
+        .addEventListener('click', () => {
+            fechar();
+        });
 
     obterDoServidor();
 }();
@@ -59,8 +66,8 @@ function obterDoServidor(pagina = 1) {
 }
 
 function atualizarLista(json) {
-    pagina = json.page ?? 1;
-    max = json.total_pages ?? 1;
+    let pagina = json.page ?? 1;
+    let max = json.total_pages ?? 1;
     const container = document.querySelector('.container');
     container.innerHTML = '';
 
@@ -93,7 +100,7 @@ function atualizarLista(json) {
                 ev => {
                     const detalhes = ev.target.parentElement.querySelector('div.detalhes');
                     const visivel = detalhes.style.display == 'block';
-                    const vizinhos = procurarVizinhos(ev.target.parentElement);
+                    const vizinhos = uteis.procurarVizinhos(ev.target.parentElement);
 
                     vizinhos.forEach(v => {
                         const it = v.querySelector('div.detalhes');
@@ -107,40 +114,6 @@ function atualizarLista(json) {
     const posters = document.querySelectorAll('div.poster > img');
     posters.forEach(p => p.addEventListener('click', evt => mostrarPoster(evt.target)));
     atualizarPaginacao(pagina, max);
-}
-
-/*
-    Retorna o seletor do elemento.
-    Não é o seletor único. Vai retornar todos os elementos vizinhos do mesmo tipo.
-*/
-var getSelector = function(el) {
-    if (el.tagName.toLowerCase() == "html")
-        return "HTML";
-    var str = el.tagName;
-    str += (el.id != "") ? "#" + el.id : "";
-    if (el.className) {
-        var classes = el.className.split(/\s/);
-        for (var i = 0; i < classes.length; i++) {
-            str += "." + classes[i]
-        }
-    }
-
-    return getSelector(el.parentNode) + " > " + str;
-}
-
-/*
-    Retorna todos os elementos vizinhos, do mesmo tipo, que estão na mesma linha.
-*/
-function procurarVizinhos(el) {
-    const top = el.getBoundingClientRect().top;
-    const pai = el.parentElement;
-    const selector = getSelector(el);
-    console.log(selector);
-
-    const vizinhos = [...pai.querySelectorAll(selector)]
-      .filter(e => e.getBoundingClientRect().top == top);
-
-    return vizinhos;
 }
 
 function mostrarPoster(img) {
@@ -164,7 +137,7 @@ function atualizarPaginacao(atual, total) {
     const inicial = atual < 4 ? 1 : atual == total ? total - 5 : atual - 3;
     const ativa = 'class="active"';
 
-    for (i = inicial; i < inicial + qtd; i++)
+    for (let i = inicial; i < inicial + qtd; i++)
         paginas.push(`<a ${i == atual ? ativa : null} href="#" onclick="recarregar(${i}, ${total})">${i}</a>`)
 
     paginas.push(`<a class="material-icons md-light" href="#" onclick="recarregar(${total}, ${total})">last_page</a>`);

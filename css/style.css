@@ -141,7 +141,7 @@ div.poster {
 }
 
 /* The Close Button */
-.close {
+#close {
     position: absolute;
     top: 15px;
     right: 35px;
@@ -151,8 +151,8 @@ div.poster {
     transition: 0.3s;
 }
 
-.close:hover,
-.close:focus {
+#close:hover,
+#close:focus {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
