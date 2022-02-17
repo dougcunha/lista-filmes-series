@@ -10,6 +10,14 @@ const obterBusca = () => document.getElementById('busca').value;
 
 document.onload = function () {
     alertar('Loading...');
+
+    document.getElementById('busca')
+        .addEventListener('keypress', evt => {
+            alertar(evt.key);
+            if (evt.key == 'Enter')
+                obterDoServidor();
+    });
+
     obterDoServidor();
 }();
 
@@ -60,16 +68,22 @@ function atualizarLista(json) {
         val => {
             let descricao = val.overview.length == 0 ? 'Não há descrição disponível' : val.overview;
             let release = new Date(val.release_date || val.first_air_date).getFullYear() || 'N/A';
-            container.innerHTML +=
-                `<div class="filme"><div class="title">${val.title || val.name} (${val.original_language})</div>
+            container.innerHTML +=`
+            <div class="filme">
+                <div class="title">${val.title || val.name} (${val.original_language})</div>
                 <div class="vote"> nota ${val.vote_average}</div>
-                <div class="detalhes" style="display:none;"><div class="description"><p>${descricao}</p><br><p>Ano: ${release}</p></div>
-                <div class="poster"><img src="https://image.tmdb.org/t/p/w500/${val.poster_path}"/></div></div>
+                <div class="detalhes" style="display:none;">
+                    <div class="description">
+                        <p>${descricao}</p><br><p>Ano: ${release}</p>
+                    </div>
+                    <div class="poster">
+                        <img title="${val.title}" src="https://image.tmdb.org/t/p/w500/${val.poster_path}"/>
+                    </div>
+                </div>
             </div>`;
         }
     );
 
-    console.log(json.results[0]);
     const titulos = document.querySelectorAll('div.title, div.vote');
 
     titulos.forEach(
@@ -77,19 +91,70 @@ function atualizarLista(json) {
             it.addEventListener(
                 'click',
                 ev => {
-                    console.log(ev.target.parentElement.innerHTML);
-                    const sty = ev.target.parentElement.querySelector('div.detalhes')?.style;
-                    console.log(ev.target.parentElement.querySelector('div.detalhes'));
-                    if (!sty)
-                        return;
+                    const detalhes = ev.target.parentElement.querySelector('div.detalhes');
+                    const visivel = detalhes.style.display == 'block';
+                    const vizinhos = procurarVizinhos(ev.target.parentElement);
 
-                    sty.display = sty.display == 'none' ? 'block' : 'none';
+                    vizinhos.forEach(v => {
+                        const it = v.querySelector('div.detalhes');
+                        it.style.display = visivel ? 'none' : 'block';
+                    });
                 }
             );
         }
     );
 
+    const posters = document.querySelectorAll('div.poster > img');
+    posters.forEach(p => p.addEventListener('click', evt => mostrarPoster(evt.target)));
     atualizarPaginacao(pagina, max);
+}
+
+/*
+    Retorna o seletor do elemento.
+    Não é o seletor único. Vai retornar todos os elementos vizinhos do mesmo tipo.
+*/
+var getSelector = function(el) {
+    if (el.tagName.toLowerCase() == "html")
+        return "HTML";
+    var str = el.tagName;
+    str += (el.id != "") ? "#" + el.id : "";
+    if (el.className) {
+        var classes = el.className.split(/\s/);
+        for (var i = 0; i < classes.length; i++) {
+            str += "." + classes[i]
+        }
+    }
+
+    return getSelector(el.parentNode) + " > " + str;
+}
+
+/*
+    Retorna todos os elementos vizinhos, do mesmo tipo, que estão na mesma linha.
+*/
+function procurarVizinhos(el) {
+    const top = el.getBoundingClientRect().top;
+    const pai = el.parentElement;
+    const selector = getSelector(el);
+    console.log(selector);
+
+    const vizinhos = [...pai.querySelectorAll(selector)]
+      .filter(e => e.getBoundingClientRect().top == top);
+
+    return vizinhos;
+}
+
+function mostrarPoster(img) {
+    const modal = document.getElementById("poster");
+    const modalImg = document.getElementById("image-poster");
+    var captionText = document.getElementById("caption");
+    modal.style.display = "block";
+    modalImg.src = img.src;
+    captionText.innerText = img.title;
+}
+
+function fechar() {
+    const modal = document.getElementById("poster");
+    modal.style.display = 'none';
 }
 
 function atualizarPaginacao(atual, total) {
